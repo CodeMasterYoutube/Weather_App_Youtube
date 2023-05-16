@@ -1,7 +1,7 @@
 
 import axios from 'axios'
 import { Inter } from 'next/font/google'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { converter } from '@/utils/converter'
 
 
@@ -12,8 +12,16 @@ export default function Home() {
   })
   const [weatherArrayForecast, setWeatherArrayForecast] = useState([])
   const [ imperial, setImperial] = useState(false)
+
+  useEffect(()=>{
+    const storedValue = localStorage.getItem("Imperial");
+    if( storedValue !== null){
+      setImperial(JSON.parse(storedValue)) 
+    }
+  },[])
   const handleCheckboxChange = ()=>{
     setImperial(!imperial)
+    localStorage.setItem("Imperial",JSON.stringify(!imperial))
   }
 
   const changeHandler =(e)=>{
